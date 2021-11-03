@@ -3,9 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-# import requests
-# from bs4 import BeautifulSoup
-
 
 url = 'https://parking.e2log.com'
 driver = webdriver.Chrome()
@@ -88,23 +85,37 @@ reviewRes = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/app
 reviewRes.click()
 
 # Validations
+# Could not fetch ID's here so resorted to this for testing
+value = []
+value.append(driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[1]/h5').text)
+value.append(driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[2]/div[1]/h5').text)
+value.append(driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[2]/div[2]/h4').text)
+value.append(driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[3]/h5[1]').text)
+value.append(driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[3]/h5[2]').text)
+value.append(driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[4]/div[1]/h3').text)
+value.append(driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[4]/div[2]/h3').text)
 
-value1 = driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[1]/h5')
-value2 = driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[2]/div[1]/h5')
-value3 = driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[2]/div[2]/h4')
-value4 = driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[3]/h5[1]')
-value5 = driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[3]/h5[2]')
-value6 = driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[4]/div[1]/h3')
-value7 = driver.find_element(By.XPATH, '/html/body/app-root/div/ng-component/div/ng-component/div/reservation-detail/div[1]/div[4]/div[2]/h3')
+# Have made flat file with expected values and opening new file to show results
+fileCorrect = open('correctValues.txt', 'r')
+passFile = open('PassFile.txt','w')
+
+# Iterate through file
+count = 0
+for line in fileCorrect:
+    strip = line.strip('\n')
+    if strip == value[count]:
+        passFile.write(strip + '   COMPARE   '+ value[count] + "\n -")
+        passFile.write('TRUE\n')
+    else:
+        passFile.write(strip + '   COMPARE   '+ value[count] + "\n -")
+        passFile.write('FALSE\n')
+    count += 1
 
 
-print(value1.text)
-print(value2.text)
-print(value3.text)
-print(value4.text)
-print(value5.text)
-print(value6.text)
-print(value7.text)
+# Small time open to see final page
+time.sleep(3)
 
-time.sleep(5)
+# File and driver closure
+fileCorrect.close()
+passFile.close()
 driver.close()
