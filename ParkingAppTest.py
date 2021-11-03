@@ -12,7 +12,7 @@ wait = WebDriverWait(driver, 5)
 
 # First Test Case to reserve spot
 
-# Goes to reservation page
+# Goes to new reservations page
 reserveButton = driver.find_element(By.CSS_SELECTOR, 'body > app-root > div > ng-component > div > ng-component > div.container.d-none.d-sm-block.pt-12 > div > button')
 reserveButton.click()
 
